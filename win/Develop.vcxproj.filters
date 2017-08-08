@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\src\Develop.cpp" />
+    <ClCompile Include="..\src\stdafx.cpp" />
+    <ClCompile Include="..\src\ByteBuffer\CByte.cpp">
+      <Filter>ByteBuffer</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="..\src\ByteBuffer\CByte.h">
+      <Filter>ByteBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CommonType.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ByteBuffer">
+      <UniqueIdentifier>{5b5a6637-063d-41c4-92ff-705540538253}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
