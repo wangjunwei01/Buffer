@@ -106,11 +106,25 @@ void CByte::ReadByte(char* dest, size_t len)
 	m_rpos += len;
 }
 
+void CByte::WriteByteByIndex(uint32 index, char* src, size_t len)
+{
+	if (!src)
+		return;
+	//index ---> [0,)
+	if (index >= m_capacity || index + len > m_capacity) {
+		ReSize(m_capacity + len + DEFAULT_SIZE);
+	}
+	memcpy(&m_byte[index], src, len);
+	m_wpos += len;
+}
+
 void CByte::WriteString(const string& str)
 {
 	short len = (short)str.length();
 	if (len > 0) {
-		WriteByte((char*)str.c_str(), len + 1);
+		WriteByte((char*)str.c_str(), len);
+		char end[1] = { '\0' };
+		WriteByte(end, sizeof(char));
 	}
 }
 
@@ -120,16 +134,18 @@ void CByte::ReadString(string& str)
 	uint32 index = m_rpos;
 	while (true)
 	{
-		if (m_byte[index] != 0) {
-			len++;
+		if (m_byte[index] == '\0') {
 			break;
 		}
 		len++;
+		index++;
 	}
-	if (len == 0)
+	if (len == 0) {
+		m_rpos += 1;
 		return;
-	str.assign(&m_byte[m_rpos], len - 1);
-	m_rpos += len;
+	}
+	str.assign(&m_byte[m_rpos], len);
+	m_rpos += (len + 1);
 }
 
 void CByte::Init(size_t size)
@@ -143,6 +159,7 @@ void CByte::Init(size_t size)
 
 void CByte::appendNetString(const string& str)
 {
+	//两个字节表示长度
 	short len = (short)str.length();
 	if (len > 0) {
 		append<short>(len);
@@ -152,5 +169,59 @@ void CByte::appendNetString(const string& str)
 
 void CByte::readNetString(string& str)
 {
+	short len = read<short>();
+	if (len > 0) {
+		if (len + m_rpos <= Size()) {
+			str.assign(&m_byte[m_rpos], len);
+			m_rpos += len;
+		}
+	}
+}
 
+CByte& CByte::operator<<(short value)
+{
+	append<short>(value);
+	return *this;
+}
+
+CByte& CByte::operator<<(double value)
+{
+	append<double>(value);
+	return *this;
+}
+
+CByte& CByte::operator<<(const string& value)
+{
+	appendNetString(value);
+	return *this;
+}
+
+CByte& CByte::operator<<(uint8 value)
+{
+	append<uint8>(value);
+	return *this;
+}
+
+CByte& CByte::operator >> (uint8& value)
+{
+	value = read<uint8>();
+	return *this;
+}
+
+CByte& CByte::operator >> (string& value)
+{
+	readNetString(value);
+	return *this;
+}
+
+CByte& CByte::operator >> (short& value)
+{
+	value = read<short>();
+	return *this;
+}
+
+CByte& CByte::operator >> (uint64& value)
+{
+	value = read<uint64>();
+	return *this;
 }
