@@ -24,14 +24,11 @@ public:
 	void appendNetString(const string& str);
 	void readNetString(string& str);
 
-	template<typename T>
-	void append(T& value);
-	template<typename T>
-	T read();
-	template<typename T>
-	void Put(uint32 index, T value);
-	template<typename T>
-	T read(uint32 index);
+	template<typename T> void append(T& value);
+	template<typename T> void append(T* value);
+	template<typename T> T read();
+	template<typename T> void Put(uint32 index, T value);
+	template<typename T> T read(uint32 index);
 
 public:
 	CByte& operator<<(uint64 value);
@@ -71,9 +68,19 @@ private:
 template<typename T>
 void CByte::append(T& value)
 {
+// 	if (is_pointer<T>::value) {
+// 	}
+
 	//memcpy(&m_byte[m_wpos], (char*)(&value), sizeof(T));
 	//m_wpos += sizeof(T);
 	WriteByte((char*)(&value), sizeof(T));
+}
+
+template<typename T>
+void CByte::append(T* value)
+{
+	static_assert(false, "pointer is not valid");
+	//#error ("not pointer");
 }
 
 template<typename T>

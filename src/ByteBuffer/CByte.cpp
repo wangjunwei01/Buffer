@@ -24,12 +24,17 @@ CByte::CByte(CByte& byte)
 
 CByte& CByte::operator=(CByte& byte)
 {
-	assert(m_byte != byte.m_byte);
+	//assert(m_byte != byte.m_byte);
+	if (m_byte == byte.m_byte) {
+		return byte;
+	}
 	if (byte.m_capacity > m_capacity) {
 		ReSize(byte.m_capacity);
 	}
+	else {
+		Clear();
+	}
 
-	Clear();
 	memcpy(m_byte, byte.m_byte, byte.m_wpos);
 	//m_len = byte.m_len;
 	m_rpos = byte.m_rpos;

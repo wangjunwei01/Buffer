@@ -4,8 +4,20 @@
 #include "stdafx.h"
 
 
+void test() {
+	char buffer[4096];
+	CByte t;
+	t.ReadByte(buffer, 4096);
+	//t.append(9);
+	t.append(buffer[0]);
+
+
+
+}
+
 int main()
 {
+	test();
 	CByte cstr;
 	std::string sss = "asdfas\0sdfasdfsadf";
 	cstr.appendNetString(sss);
@@ -38,6 +50,6 @@ int main()
 			printf("%s\n", buff);
 		}
 	}
-
+	system("pause");
 	return 0;
 }
