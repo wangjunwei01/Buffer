@@ -202,6 +202,18 @@ CByte& CByte::operator<<(uint8 value)
 	return *this;
 }
 
+CByte& CByte::operator<<(uint32 value)
+{
+	append<uint32>(value);
+	return *this;
+}
+
+CByte& CByte::operator >> (uint32& value)
+{
+	value = read<uint32>();
+	return *this;
+}
+
 CByte& CByte::operator >> (uint8& value)
 {
 	value = read<uint8>();

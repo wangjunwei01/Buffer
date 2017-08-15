@@ -7,24 +7,22 @@
 int main()
 {
 	CByte cstr;
-	uint32 index = cstr.wpos();
-	uint8 count = 0;
-	cstr << count;
-	std::string sss = "asdfasdf\0sdfasdfsadf";
-	cstr.WriteString(sss);
-	cstr.WriteString("1234");
-	cstr.appendNetString("5678");
+	std::string sss = "asdfas\0sdfasdfsadf";
 	cstr.appendNetString(sss);
-	cstr.Put(index, uint8(10));
+	for (uint32 i = 0; i < 15; i++)
+	{
+		char buff[10] = { 0 };
+		sprintf_s(buff, 10, "%d", i);
+		cstr.WriteByte(buff, 8);
+	}
+	double d = 1.0;
+	cstr << d;
 
 	CByte newCbyte = cstr;
 	CByte newCbyte1;
 	newCbyte1 = cstr;
+	double dd = newCbyte1.read<double>(128);
 	string readStr;
-	newCbyte1 >> count;
-	newCbyte1.ReadString(readStr);
-	newCbyte1.ReadString(readStr);
-	newCbyte1.readNetString(readStr);
 	newCbyte1.readNetString(readStr);
 
 	CByte date;

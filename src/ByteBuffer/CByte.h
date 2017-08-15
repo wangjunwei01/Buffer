@@ -30,6 +30,8 @@ public:
 	T read();
 	template<typename T>
 	void Put(uint32 index, T value);
+	template<typename T>
+	T read(uint32 index);
 
 public:
 	CByte& operator<<(uint64 value);
@@ -40,7 +42,6 @@ public:
 	CByte& operator<<(int16 value);
 	CByte& operator<<(uint8 value);
 	CByte& operator<<(int8 value);
-	//CByte& operator<<(short value);
 	CByte& operator<<(double value);
 	CByte& operator<<(const string& value);
 
@@ -52,7 +53,6 @@ public:
 	CByte& operator>>(int16& value);
 	CByte& operator>>(uint8& value);
 	CByte& operator>>(int8& value);
-	//CByte& operator>>(short& value);
 	CByte& operator>>(double& value);
 	CByte& operator>>(string& value);
 private:
@@ -62,7 +62,6 @@ private:
 private:
 	const static size_t DEFAULT_SIZE = 128;
 	uint32 m_capacity = 0;
-	//uint32 m_len = 0;
 	uint32 m_rpos = 0;
 	uint32 m_wpos = 0;
 	char* m_byte = nullptr;
@@ -85,6 +84,16 @@ T CByte::read()
 	}
 	T t = *((T*)&m_byte[m_rpos]);
 	m_rpos += sizeof(T);
+	return t;
+}
+
+template<typename T>
+T CByte::read(uint32 index)
+{
+	if (sizeof(T) + index > Size()) {
+		return T();
+	}
+	T t = *(T*)(&m_byte[index]);
 	return t;
 }
 
