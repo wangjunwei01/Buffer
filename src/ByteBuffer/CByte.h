@@ -1,22 +1,22 @@
 #pragma once
 using namespace std;
 
-class CByte
+class ByteBuffer
 {
 public:
-	CByte();
-	CByte(size_t size);
-	CByte(CByte& byte);
-	CByte& operator=(CByte& byte);
-	virtual ~CByte();
+	ByteBuffer();
+	ByteBuffer(size_t size);
+	ByteBuffer(ByteBuffer& byte);
+	ByteBuffer& operator=(ByteBuffer& byte);
+	virtual ~ByteBuffer();
 	void Clear();
 	char* Contents();
 	inline uint32 Size();
 	inline uint32 wpos() { return m_wpos; }
 
 	void WriteByte(char* src, size_t len);
-	void ReadByte(char* dest, size_t len);
-	void WriteByteByIndex(uint32 index, char* src, size_t len);
+	uint32 ReadByte(char* dest, size_t len);
+	void WriteByteFrom(uint32 index, char* src, size_t len);
 
 	void WriteString(const string& str);
 	void ReadString(string& str);
@@ -31,27 +31,27 @@ public:
 	template<typename T> T read(uint32 index);
 
 public:
-	CByte& operator<<(uint64 value);
-	CByte& operator<<(int64 value);
-	CByte& operator<<(uint32 value);
-	CByte& operator<<(int32 value);
-	CByte& operator<<(uint16 value);
-	CByte& operator<<(int16 value);
-	CByte& operator<<(uint8 value);
-	CByte& operator<<(int8 value);
-	CByte& operator<<(double value);
-	CByte& operator<<(const string& value);
+	ByteBuffer& operator<<(uint64 value);
+	ByteBuffer& operator<<(int64 value);
+	ByteBuffer& operator<<(uint32 value);
+	ByteBuffer& operator<<(int32 value);
+	ByteBuffer& operator<<(uint16 value);
+	ByteBuffer& operator<<(int16 value);
+	ByteBuffer& operator<<(uint8 value);
+	ByteBuffer& operator<<(int8 value);
+	ByteBuffer& operator<<(double value);
+	ByteBuffer& operator<<(const string& value);
 
-	CByte& operator>>(uint64& value);
-	CByte& operator>>(int64& value);
-	CByte& operator>>(uint32& value);
-	CByte& operator>>(int32& value);
-	CByte& operator>>(uint16& value);
-	CByte& operator>>(int16& value);
-	CByte& operator>>(uint8& value);
-	CByte& operator>>(int8& value);
-	CByte& operator>>(double& value);
-	CByte& operator>>(string& value);
+	ByteBuffer& operator>>(uint64& value);
+	ByteBuffer& operator>>(int64& value);
+	ByteBuffer& operator>>(uint32& value);
+	ByteBuffer& operator>>(int32& value);
+	ByteBuffer& operator>>(uint16& value);
+	ByteBuffer& operator>>(int16& value);
+	ByteBuffer& operator>>(uint8& value);
+	ByteBuffer& operator>>(int8& value);
+	ByteBuffer& operator>>(double& value);
+	ByteBuffer& operator>>(string& value);
 private:
 	void ReCapacity();
 	void ReSize(size_t size);
@@ -66,7 +66,7 @@ private:
 
 
 template<typename T>
-void CByte::append(T& value)
+void ByteBuffer::append(T& value)
 {
 // 	if (is_pointer<T>::value) {
 // 	}
@@ -77,14 +77,14 @@ void CByte::append(T& value)
 }
 
 template<typename T>
-void CByte::append(T* value)
+void ByteBuffer::append(T* value)
 {
 	static_assert(false, "pointer is not valid");
 	//#error ("not pointer");
 }
 
 template<typename T>
-T CByte::read()
+T ByteBuffer::read()
 {
 	if (sizeof(T) + m_rpos > Size()) {
 		return T();
@@ -95,7 +95,7 @@ T CByte::read()
 }
 
 template<typename T>
-T CByte::read(uint32 index)
+T ByteBuffer::read(uint32 index)
 {
 	if (sizeof(T) + index > Size()) {
 		return T();
@@ -105,8 +105,8 @@ T CByte::read(uint32 index)
 }
 
 template<typename T>
-void CByte::Put(uint32 index, T value)
+void ByteBuffer::Put(uint32 index, T value)
 {
-	WriteByteByIndex(index, (char*)(&value), sizeof(T));
+	WriteByteFrom(index, (char*)(&value), sizeof(T));
 }
 

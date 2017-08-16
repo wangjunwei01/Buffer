@@ -6,6 +6,7 @@
     <ClCompile Include="..\src\ByteBuffer\CByte.cpp">
       <Filter>ByteBuffer</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -13,6 +14,7 @@
       <Filter>ByteBuffer</Filter>
     </ClInclude>
     <ClInclude Include="..\src\CommonType.h" />
+    <ClInclude Include="..\src\test.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ByteBuffer">

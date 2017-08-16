@@ -2,17 +2,17 @@
 #include "CByte.h"
 
 
-CByte::CByte()
+ByteBuffer::ByteBuffer()
 {
 	Init(DEFAULT_SIZE);
 }
 
-CByte::CByte(size_t size)
+ByteBuffer::ByteBuffer(size_t size)
 {
 	Init(size);
 }
 
-CByte::CByte(CByte& byte)
+ByteBuffer::ByteBuffer(ByteBuffer& byte)
 {
 	Init(byte.m_capacity);
 
@@ -22,7 +22,7 @@ CByte::CByte(CByte& byte)
 	m_wpos = byte.m_wpos;
 }
 
-CByte& CByte::operator=(CByte& byte)
+ByteBuffer& ByteBuffer::operator=(ByteBuffer& byte)
 {
 	//assert(m_byte != byte.m_byte);
 	if (m_byte == byte.m_byte) {
@@ -42,7 +42,7 @@ CByte& CByte::operator=(CByte& byte)
 	return *this;
 }
 
-CByte::~CByte()
+ByteBuffer::~ByteBuffer()
 {
 	free(m_byte);
 	m_byte = nullptr;
@@ -50,45 +50,46 @@ CByte::~CByte()
 
 
 
-void CByte::Clear()
+void ByteBuffer::Clear()
 {
 	assert(m_byte);
-	memset(m_byte, 0, m_capacity);
+	//memset(m_byte, 0, m_capacity);
 	m_rpos = 0;
 	m_wpos = 0;
 	//m_len = 0;
 }
 
-char* CByte::Contents()
+char* ByteBuffer::Contents()
 {
 	return m_byte;
 }
 
-void CByte::ReCapacity()
+void ByteBuffer::ReCapacity()
 {
 	ReSize(m_capacity + DEFAULT_SIZE);
 }
 
-void CByte::ReSize(size_t size)
+void ByteBuffer::ReSize(size_t size)
 {
 	if (size <= m_capacity) {
 		return;
 	}
 	char* newBuff = (char*)malloc(size);
 	assert(newBuff);
-	memset(newBuff, 0, size);
+	/*游标控制不用初始化，影响效率*/
+	//memset(newBuff, 0, size);
 	memcpy(newBuff, m_byte, m_wpos);
 	free(m_byte);
 	m_byte = newBuff;
 	m_capacity = size;
 }
 
-uint32 CByte::Size()
+uint32 ByteBuffer::Size()
 {
 	return m_wpos;
 }
 
-void CByte::WriteByte(char* src, size_t len)
+void ByteBuffer::WriteByte(char* src, size_t len)
 {
 	if (!src)
 		return;
@@ -101,17 +102,19 @@ void CByte::WriteByte(char* src, size_t len)
 	//m_len += len;
 }
 
-void CByte::ReadByte(char* dest, size_t len)
+uint32 ByteBuffer::ReadByte(char* dest, size_t len)
 {
 	if (m_rpos + len > Size()) {
-		memcpy(dest, 0, len);
-		return;
+		uint32 readLen = Size() - m_rpos;
+		memcpy(dest, &m_byte[m_rpos], readLen);
+		return readLen;
 	}
 	memcpy(dest, &m_byte[m_rpos], len);
 	m_rpos += len;
+	return len;
 }
 
-void CByte::WriteByteByIndex(uint32 index, char* src, size_t len)
+void ByteBuffer::WriteByteFrom(uint32 index, char* src, size_t len)
 {
 	if (!src)
 		return;
@@ -123,7 +126,7 @@ void CByte::WriteByteByIndex(uint32 index, char* src, size_t len)
 	m_wpos += len;
 }
 
-void CByte::WriteString(const string& str)
+void ByteBuffer::WriteString(const string& str)
 {
 	short len = (short)str.length();
 	if (len > 0) {
@@ -133,7 +136,7 @@ void CByte::WriteString(const string& str)
 	}
 }
 
-void CByte::ReadString(string& str)
+void ByteBuffer::ReadString(string& str)
 {
 	short len = 0;
 	uint32 index = m_rpos;
@@ -153,7 +156,7 @@ void CByte::ReadString(string& str)
 	m_rpos += (len + 1);
 }
 
-void CByte::Init(size_t size)
+void ByteBuffer::Init(size_t size)
 {
 	m_byte = (char*)malloc(size);
 	assert(m_byte);
@@ -162,7 +165,7 @@ void CByte::Init(size_t size)
 }
 
 
-void CByte::appendNetString(const string& str)
+void ByteBuffer::appendNetString(const string& str)
 {
 	//两个字节表示长度
 	short len = (short)str.length();
@@ -172,7 +175,7 @@ void CByte::appendNetString(const string& str)
 	}
 }
 
-void CByte::readNetString(string& str)
+void ByteBuffer::readNetString(string& str)
 {
 	short len = read<short>();
 	if (len > 0) {
@@ -183,61 +186,61 @@ void CByte::readNetString(string& str)
 	}
 }
 
-CByte& CByte::operator<<(short value)
+ByteBuffer& ByteBuffer::operator<<(short value)
 {
 	append<short>(value);
 	return *this;
 }
 
-CByte& CByte::operator<<(double value)
+ByteBuffer& ByteBuffer::operator<<(double value)
 {
 	append<double>(value);
 	return *this;
 }
 
-CByte& CByte::operator<<(const string& value)
+ByteBuffer& ByteBuffer::operator<<(const string& value)
 {
 	appendNetString(value);
 	return *this;
 }
 
-CByte& CByte::operator<<(uint8 value)
+ByteBuffer& ByteBuffer::operator<<(uint8 value)
 {
 	append<uint8>(value);
 	return *this;
 }
 
-CByte& CByte::operator<<(uint32 value)
+ByteBuffer& ByteBuffer::operator<<(uint32 value)
 {
 	append<uint32>(value);
 	return *this;
 }
 
-CByte& CByte::operator >> (uint32& value)
+ByteBuffer& ByteBuffer::operator >> (uint32& value)
 {
 	value = read<uint32>();
 	return *this;
 }
 
-CByte& CByte::operator >> (uint8& value)
+ByteBuffer& ByteBuffer::operator >> (uint8& value)
 {
 	value = read<uint8>();
 	return *this;
 }
 
-CByte& CByte::operator >> (string& value)
+ByteBuffer& ByteBuffer::operator >> (string& value)
 {
 	readNetString(value);
 	return *this;
 }
 
-CByte& CByte::operator >> (short& value)
+ByteBuffer& ByteBuffer::operator >> (short& value)
 {
 	value = read<short>();
 	return *this;
 }
 
-CByte& CByte::operator >> (uint64& value)
+ByteBuffer& ByteBuffer::operator >> (uint64& value)
 {
 	value = read<uint64>();
 	return *this;

@@ -27,11 +27,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\src\test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\ByteBuffer\CByte.h" />
     <ClInclude Include="..\src\CommonType.h" />
     <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="..\src\test.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6550F01C-C26B-4AB5-B160-216BD31EDEEC}</ProjectGuid>
