@@ -13,6 +13,7 @@
 
 
 #include "CommonType.h"
+#include "Log/Log.h"
 #include "ByteBuffer/CByte.h"
 #include "test.h"
 

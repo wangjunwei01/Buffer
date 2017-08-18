@@ -7,6 +7,9 @@
       <Filter>ByteBuffer</Filter>
     </ClCompile>
     <ClCompile Include="..\src\test.cpp" />
+    <ClCompile Include="..\src\Log\Log.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -15,10 +18,16 @@
     </ClInclude>
     <ClInclude Include="..\src\CommonType.h" />
     <ClInclude Include="..\src\test.h" />
+    <ClInclude Include="..\src\Log\Log.h">
+      <Filter>Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ByteBuffer">
       <UniqueIdentifier>{5b5a6637-063d-41c4-92ff-705540538253}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{decae905-76af-434e-a999-d44e2a746459}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
