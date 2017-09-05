@@ -9,10 +9,18 @@
 #include <stdio.h>
 #include <tchar.h>
 #include <string>
+#include <iostream>
 #include <assert.h>
+#include <wtypes.h>
+#include <winnt.h>
+#include <wingdi.h>
+#include <wincon.h>
+
 
 
 #include "CommonType.h"
+
+
 #include "Log/Log.h"
 #include "ByteBuffer/CByte.h"
 #include "test.h"
