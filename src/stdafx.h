@@ -11,10 +11,12 @@
 #include <string>
 #include <iostream>
 #include <assert.h>
+#include <stdarg.h>
 #include <wtypes.h>
 #include <winnt.h>
 #include <wingdi.h>
 #include <wincon.h>
+#include <time.h>
 
 
 

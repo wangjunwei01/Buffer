@@ -34,13 +34,18 @@ class Log
 public:
 	Log();
 	~Log();
+	void outError(const char *source, const char* str, ...);
 	void outDebug(const char *source, const char* str, ...);
+	void outInfo(const char *source, const char* str, ...);
+	void logScreen(LogColors color, const char *source, const char* str, ...);
 private:
-	void outScreen(const string& str, LogLevel level);
+	std::string LogString(LogLevel level, const char* source, const char* str, va_list ap);
+	void outScreen(const std::string& str, LogLevel level);
 
 private:
 #ifdef WIN32
-	HANDLE stdout_handle, stderr_handle;
+	HANDLE stdout_handle;
+	HANDLE stderr_handle;
 #endif
 };
 
