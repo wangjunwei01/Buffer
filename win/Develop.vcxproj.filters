@@ -10,6 +10,9 @@
     <ClCompile Include="..\src\Log\Log.cpp">
       <Filter>Log</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Socket\SocketMgr.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -21,6 +24,15 @@
     <ClInclude Include="..\src\Log\Log.h">
       <Filter>Log</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Socket\SocketMgr.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Socket\SocketDefines.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Socket\ListenSocket.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ByteBuffer">
@@ -28,6 +40,9 @@
     </Filter>
     <Filter Include="Log">
       <UniqueIdentifier>{decae905-76af-434e-a999-d44e2a746459}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Socket">
+      <UniqueIdentifier>{540c8866-4ab1-4b29-8748-391a7e6685a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

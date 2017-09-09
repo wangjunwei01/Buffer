@@ -12,12 +12,15 @@
 #include <iostream>
 #include <assert.h>
 #include <stdarg.h>
-#include <wtypes.h>
-#include <winnt.h>
-#include <wingdi.h>
-#include <wincon.h>
 #include <time.h>
+#include <thread>
+#include <vector>
+//#include <wtypes.h>
+//#include <winnt.h>
+//#include <wingdi.h>
+//#include <wincon.h>
 
+#include "Socket/SocketDefines.h"
 
 
 #include "CommonType.h"
