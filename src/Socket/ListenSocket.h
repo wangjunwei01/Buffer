@@ -32,10 +32,18 @@ bool ListenSocket<T>::AcceptEx()
 	SOCKET acceptSocket = WSASocket(AF_INET, SOCK_STREAM, 0, NULL, 0, WSA_FLAG_OVERLAPPED);
 	m_clientSocket = new T(acceptSocket);
 
+	DWORD dwBytes = 0;
+	DWORD dwLocalAddressLength = sizeof(SOCKADDR_IN) + 16;
+	DWORD dwRemoteAddressLength = sizeof(SOCKADDR_IN) + 16;
+	//DWORD dwReceiveDataLength = ioOverlapped.dataBufferCount - dwLocalAddressLength - dwRemoteAddressLength;
+
 	OverlappedStruct overlapped;
 	overlapped.m_event = SEvent_Accept;
 
-	BOOL result = m_lpfnAcceptEx(m_listenSocket, m_clientSocket, );
+	BOOL result = m_lpfnAcceptEx(m_listenSocket,
+		m_clientSocket, 
+
+		);
 	if (!result && WSA_IO_PENDING != WSAGetLastError()) {
 		slog.outInfo("ListenSocket<T>::AcceptEx", "lpfnAcceptEx faild");
 		delete m_clientSocket;

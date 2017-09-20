@@ -13,6 +13,9 @@
     <ClCompile Include="..\src\Socket\SocketMgr.cpp">
       <Filter>Socket</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Socket\Socket.cpp">
+      <Filter>Socket</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\stdafx.h" />
@@ -31,6 +34,9 @@
       <Filter>Socket</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Socket\ListenSocket.h">
+      <Filter>Socket</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Socket\Socket.h">
       <Filter>Socket</Filter>
     </ClInclude>
   </ItemGroup>
